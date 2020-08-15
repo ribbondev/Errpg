@@ -20,6 +20,8 @@ namespace Errpg.Game.Scenes
     {
         public SceneIdentifiers SceneId => SceneIdentifiers.WorldScene;
         private AnimatedSprite<DebichanAnimation> _debichan;
+        private WorldRenderer _worldRenderer;
+        private Camera2D _camera;
 
         public WorldScene()
         {
@@ -35,11 +37,19 @@ namespace Errpg.Game.Scenes
             _debichan = new AnimatedSprite<DebichanAnimation>(new DebichanSpriteData());
             _debichan.Position = new Vector2(100f, 100f);
             _debichan.Play(DebichanAnimation.DebichanFrontStill);
+
+            _worldRenderer = new WorldRenderer();
+            _worldRenderer.PreLoad();
+
+            _camera = new Camera2D(new Vector2(_debichan.Position.X + 10.0f, _debichan.Position.Y + 10.0f), _debichan.Position, 0.0f, 1.0f);
         }
 
         public Directional Direction { get; set; } = Directional.Down;
         public void Render()
         {
+            BeginMode2D(_camera);
+
+            _worldRenderer.Render();
             Direction = Directional.Down;
             
             if (IsKeyDown(KeyboardKey.KEY_LEFT))
@@ -77,7 +87,11 @@ namespace Errpg.Game.Scenes
                 else _debichan.Play(DebichanAnimation.DebichanFrontStill);
             }
 
+            _camera.target = _debichan.Position;
+
             _debichan.Render();
+
+            EndMode2D();
         }
     }
 }
