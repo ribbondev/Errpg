@@ -14,22 +14,6 @@ namespace Errpg.Game.Scenes
             _sceneOrchestrator = sceneOrchestrator;
         }
 
-        public void Destroy()
-        {
-        }
-
-        public void EnterStage()
-        {
-        }
-
-        public void ExitStage()
-        {
-        }
-
-        public void Preload()
-        {
-        }
-
         public void Render()
         {
             if (IsKeyPressed(KeyboardKey.KEY_BACKSPACE))

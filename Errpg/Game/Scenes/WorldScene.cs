@@ -30,14 +30,6 @@ namespace Errpg.Game.Scenes
             _debichan.Destroy();
         }
 
-        public void EnterStage()
-        {
-        }
-
-        public void ExitStage()
-        {
-        }
-
         public void Preload()
         {
             _debichan = new AnimatedSprite<DebichanAnimation>(new DebichanSpriteData());
