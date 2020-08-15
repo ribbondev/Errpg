@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Errpg.Game.AnimatedSprites;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
@@ -12,29 +13,30 @@ namespace Errpg.Engine
         public List<Rectangle> Rectangles { get; set; }
     }
 
-    public class AnimatedSprite
+    public class AnimatedSprite<T>
     {
         public Vector2 Position { get; set; } = new Vector2(0, 0);
 
         private Texture2D _texture;
-        private Dictionary<int, SpriteAnimation> _animations;
+        private Dictionary<T, SpriteAnimation> _animations;
         private SpriteAnimation _currentAnimation;
 
         private int _animationIndex;
         private int _framesCounter;
 
-        public AnimatedSprite(string fileName)
+        public AnimatedSprite(ISpriteData<T> spriteData)
         {
-            _texture = LoadTexture(fileName);
-            _animations = new Dictionary<int, SpriteAnimation>();
+            _texture = LoadTexture(spriteData.TextureFileName);
+            _animations = new Dictionary<T, SpriteAnimation>();
+            spriteData.RegisterAnimations(this);
         }
 
-        public void RegisterAnimation(int id, SpriteAnimation spriteAnimation)
+        public void RegisterAnimation(T id, SpriteAnimation spriteAnimation)
         {
             _animations.Add(id, spriteAnimation);
         }
 
-        public void Play(int animationId, int startIndex = 0)
+        public void Play(T animationId, int startIndex = 0)
         {
             if (_currentAnimation == _animations[animationId])
                 return;
